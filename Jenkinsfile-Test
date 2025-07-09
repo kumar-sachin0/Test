@@ -1,0 +1,51 @@
+pipeline {
+    agent any
+
+    triggers {
+        githubPush() // Triggers the pipeline on push events from GitHub
+    }
+
+    environment {
+        // Define any environment variables here if needed
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the source code from GitHub
+                git credentialsId: 'your-github-credentials-id', url: 'https://github.com/your-username/your-repo.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Building the project...'
+                // Add your build commands here, e.g., mvn clean install
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+                // Add your test commands here
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploying the application...'
+                // Add your deployment steps here
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully.'
+        }
+        failure {
+            echo 'Pipeline failed.'
+        }
+    }
+}
+
